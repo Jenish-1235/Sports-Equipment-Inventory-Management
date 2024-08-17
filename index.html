@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font links from google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap" rel="stylesheet">
+
+
+    <!-- CSS File link to style the login form for entering the inventory -->
+    <link rel="stylesheet" href="Styles/login_style.css">
+
+    <title>Sports Inventory</title>
+
+</head>
+<body>
+
+    
+    <header><h1>Sports Club @SST</h1><br></header>
+
+    <!-- Login Form -->
+    <section id="login">
+        <div class="container">
+            <h2 id="loginHead">Sports Inventory</h2>
+
+                <form action="" id="userData">
+                    <div class="form-group">
+                        <label for="Name">Name: 
+                            <input type="text" id="name" name="name" required autocomplete="off">
+                        </label>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="role">Login as:</label>
+                            <select id="role" name="role">
+                                <option value="student">Student</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                    </div>
+                    <br>
+                    <button type="submit">Enter</button>
+                </form>
+
+        </div>
+    </section>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+<!-- Add Firebase products that you want to use -->
+    <script src="Scripts/login_script.js"></script>
+</body>
+</html>
