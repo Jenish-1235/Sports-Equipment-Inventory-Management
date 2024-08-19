@@ -18,7 +18,6 @@
         </div>
     </section>
 
-
     <!-- Main Dashboard Section -->
     <section id="dashboard">
         <h2>Dashboard</h2>
@@ -27,87 +26,9 @@
             <div class="inventory">
                 <h2>Sports Inventory</h2>
                 <div class="inventory-grid">
-                    <!-- Inventory Item 1 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/football.jpEg');"></div>
-                        <div class="item-name">Football</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-                    <!-- Inventory Item 2 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/basketball.jpg');"></div>
-                        <div class="item-name">Basketball</div>
-                        <div class="status not-available">Not Available</div>
-                    </div>
-
-                    <!-- Inventory Item 3 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/cricket.jpeg');"></div>
-                        <div class="item-name">Cricket</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/football.jpEg');"></div>
-                        <div class="item-name">Football</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-                    <!-- Inventory Item 2 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/basketball.jpg');"></div>
-                        <div class="item-name">Basketball</div>
-                        <div class="status not-available">Not Available</div>
-                    </div>
-
-                    <!-- Inventory Item 3 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/cricket.jpeg');"></div>
-                        <div class="item-name">Cricket</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/football.jpEg');"></div>
-                        <div class="item-name">Football</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-                    <!-- Inventory Item 2 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/basketball.jpg');"></div>
-                        <div class="item-name">Basketball</div>
-                        <div class="status not-available">Not Available</div>
-                    </div>
-
-                    <!-- Inventory Item 3 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/cricket.jpeg');"></div>
-                        <div class="item-name">Cricket</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/football.jpEg');"></div>
-                        <div class="item-name">Football</div>
-                        <div class="status available">Available</div>
-                    </div>
-
-                    <!-- Inventory Item 2 -->
-                    <div class="item">
-                        <div class="item-bg" style="background-image: url('Images/basketball.jpg');"></div>
-                        <div class="item-name">Basketball</div>
-                        <div class="status not-available">Not Available</div>
-                    </div>
-
-                    <!-- Inventory Item 3 -->
+                    <!-- Inventory Items will be dynamically inserted here -->
                 </div>
             </div>
-
-
 
             <!-- Right Side: Placeholder for future features -->
             <div class="features">
@@ -135,36 +56,32 @@
                 </div>
             </div>
 
-            <!-- Main Dashboard Section -->
-            <section id="dashboard">
-                <!-- Existing content -->
+            <!-- Borrow Form -->
+            <div id="borrow-form" class="hidden">
+                <div class="form-content">
+                    <h3>Borrow Item</h3>
+                    <form id="borrow-item-form">
+                        <label for="item-name">Item Name:</label>
+                        <input type="text" id="item-name" name="item-name" readonly>
 
-                <!-- Borrow Form -->
-                <div id="borrow-form" class="hidden">
-                    <div class="form-content">
-                        <h3>Borrow Item</h3>
-                        <form id="borrow-item-form">
-                            <label for="item-name">Item Name:</label>
-                            <input type="text" id="item-name" name="item-name" readonly>
+                        <label for="student-id">Student ID:</label>
+                        <input type="text" id="student-id" name="student-id" required>
 
-                            <label for="student-id">Student ID:</label>
-                            <input type="text" id="student-id" name="student-id" required>
+                        <label for="borrow-date">Borrow Date:</label>
+                        <input type="date" id="borrow-date" name="borrow-date" required>
 
-                            <label for="borrow-date">Borrow Date:</label>
-                            <input type="date" id="borrow-date" name="borrow-date" required>
+                        <label for="return-date">Return Date:</label>
+                        <input type="date" id="return-date" name="return-date" required>
 
-                            <label for="return-date">Return Date:</label>
-                            <input type="date" id="return-date" name="return-date" required>
-
-                            <button id="submit-form" type="submit">Submit</button>
-                            <button id="close-form" type="button">Close</button>
-                        </form>
-                    </div>
+                        <button id="submit-form" type="submit">Submit</button>
+                        <button id="close-form" type="button">Close</button>
+                    </form>
                 </div>
-            </section>
-
+            </div>
+        </div>
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="Scripts/student_dashboard_script.js"></script>
 </body>
 

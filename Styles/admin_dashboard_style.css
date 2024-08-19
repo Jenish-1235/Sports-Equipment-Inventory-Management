@@ -386,3 +386,45 @@ header {
     }
 }
 
+/* Improved Button Styles */
+button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:focus {
+    outline: 3px solid #0056b3;
+}
+
+button:hover {
+    background-color: darken(#0056b3, 10%);
+    color: white;
+}
+
+/* Specific Button Styles */
+#addItemBtn,
+#addUserBtn {
+    background-color: #0056b3;
+    color: white;
+}
+
+#cancelAddItemBtn {
+    background-color: #dc3545;
+    color: white;
+}
+
+#cancelAddItemBtn:hover {
+    background-color: #c82333;
+}
+
+.borrow-request-actions .approve {
+    background-color: #28a745;
+}
+
+.borrow-request-actions .deny {
+    background-color: #dc3545;
+}

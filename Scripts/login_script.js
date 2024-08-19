@@ -20,7 +20,20 @@ document.getElementById('userData').addEventListener('submit', function(e) {
 
     const name = document.getElementById('name').value;
     const role = document.getElementById('role').value;
+    const rollNumber = document.getElementById('rollNumber').value;
+    const adminPassword = document.getElementById('adminPassword').value;
     const loginTime = new Date().toLocaleString(); // Get the current date and time
+
+    // Perform basic validation
+    if (role === 'student' && !rollNumber) {
+        alert('Please enter your roll number.');
+        return;
+    }
+
+    if (role === 'admin' && !adminPassword) {
+        alert('Please enter the admin password.');
+        return;
+    }
 
     // Simulate a simple login based on the role selected
     auth.signInAnonymously().then(() => {
@@ -31,6 +44,8 @@ document.getElementById('userData').addEventListener('submit', function(e) {
         database.ref('users').push({
             name: name,
             role: role,
+            rollNumber: role === 'student' ? rollNumber : null,
+            adminPassword: role === 'admin' ? adminPassword : null,
             loginTime: loginTime
         }).then(() => {
             // Redirect based on role
