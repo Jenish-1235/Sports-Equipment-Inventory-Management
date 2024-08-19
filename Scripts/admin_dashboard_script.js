@@ -13,6 +13,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+// Dashboard Overview
 document.addEventListener('DOMContentLoaded', function () {
     const overviewRef = firebase.database().ref('overview');
 
@@ -76,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         const itemName = document.getElementById('itemName').value;
-        const itemAvailable = document.getElementById('itemAvailable').value;
         const itemCondition = document.getElementById('itemCondition').value;
         const itemStatus = document.getElementById('itemStatus').value;
 
@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         newItemRef.set({
             name: itemName,
-            available: itemAvailable,
             condition: itemCondition,
             status: itemStatus
         }).then(() => {
@@ -115,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.innerHTML = `
                     <td>${itemId}</td>
                     <td>${item.name}</td>
-                    <td>${item.available}</td>
                     <td>${item.condition}</td>
                     <td>${item.status}</td>
                     <td>
@@ -165,6 +163,18 @@ function renderBorrowRequests() {
             const request = childSnapshot.val();
             const requestId = childSnapshot.key;
 
+            // Determine button status based on current request status
+            const isApproved = request.status === 'approved';
+            const isDenied = request.status === 'denied';
+            const approveButtonText = isApproved ? 'Approved' : 'Approve';
+            const denyButtonText = isDenied ? 'Denied' : 'Deny';
+            const approveButtonClass = isApproved ? 'disabled' : '';
+            const denyButtonClass = isDenied ? 'disabled' : '';
+
+            // Hide the other button if one is already in the desired state
+            const approveButtonStyle = isDenied ? 'display: none;' : '';
+            const denyButtonStyle = isApproved ? 'display: none;' : '';
+
             const requestItem = document.createElement('div');
             requestItem.className = 'borrow-request-item';
             requestItem.innerHTML = `
@@ -174,10 +184,11 @@ function renderBorrowRequests() {
                     <div>Student Name: ${request.studentName}</div>
                 </div>
                 <div class="borrow-request-actions">
-                    <button class="approve" data-id="${requestId}">Approve</button>
-                    <button class="deny" data-id="${requestId}">Deny</button>
+                    <button class="approve ${approveButtonClass}" data-id="${requestId}" style="${approveButtonStyle}">${approveButtonText}</button>
+                    <button class="deny ${denyButtonClass}" data-id="${requestId}" style="${denyButtonStyle}">${denyButtonText}</button>
                 </div>
             `;
+
             borrowRequestsList.appendChild(requestItem);
         });
 
@@ -217,54 +228,50 @@ const blacklistForm = document.getElementById('blacklistForm');
 const blacklistUserForm = document.getElementById('blacklistUserForm');
 const blacklistTableBody = document.querySelector('#blacklistTable tbody');
 
-document.getElementById('addUserBtn').addEventListener('click', () => {
-    blacklistForm.style.display = 'block';
-});
-
-blacklistUserForm.addEventListener('submit', (event) => {
+// Add user to blacklist
+blacklistForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const rollNumber = document.getElementById('rollNumber').value;
+    const userId = blacklistUserForm.querySelector('#blacklistUserId').value;
+    const rollNumber = blacklistUserForm.querySelector('#blacklistRollNumber').value;
 
-    // Add student to blacklist
+    // Add user to blacklist in Firebase
     const db = firebase.database();
     const blacklistRef = db.ref('blacklist');
-    const newBlacklistRef = blacklistRef.push();
-
-    newBlacklistRef.set({ rollNumber }).then(() => {
+    blacklistRef.child(userId).set({
+        rollNumber
+    }).then(() => {
         console.log('User added to blacklist successfully');
-        blacklistForm.style.display = 'none';
+        blacklistUserForm.reset();
         fetchBlacklistedUsers(); // Refresh the blacklist
     }).catch((error) => {
         console.error('Error adding user to blacklist:', error);
     });
 });
 
-// Fetch and update the blacklist
+// Fetch blacklisted users
 function fetchBlacklistedUsers() {
     const db = firebase.database();
     const blacklistRef = db.ref('blacklist');
 
     blacklistRef.on('value', (snapshot) => {
         blacklistTableBody.innerHTML = ''; // Clear existing rows
-
         snapshot.forEach((childSnapshot) => {
             const user = childSnapshot.val();
             const userId = childSnapshot.key;
 
-            // Create a new row for each blacklisted user
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${user.rollNumber}</td>
                 <td>
-                    <button class="remove-blacklist-btn" data-id="${userId}">Remove</button>
+                    <button class="removeBlacklistedBtn" data-id="${userId}">Remove</button>
                 </td>
             `;
             blacklistTableBody.appendChild(row);
         });
 
         // Add event listeners for remove buttons
-        document.querySelectorAll('.remove-blacklist-btn').forEach(btn => {
+        document.querySelectorAll('.removeBlacklistedBtn').forEach(btn => {
             btn.addEventListener('click', (event) => {
                 const userId = event.target.getAttribute('data-id');
                 removeFromBlacklist(userId);
@@ -273,6 +280,7 @@ function fetchBlacklistedUsers() {
     });
 }
 
+// Remove user from blacklist
 function removeFromBlacklist(userId) {
     const db = firebase.database();
     const userRef = db.ref(`blacklist/${userId}`);

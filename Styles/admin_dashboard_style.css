@@ -428,3 +428,22 @@ button:hover {
 .borrow-request-actions .deny {
     background-color: #dc3545;
 }
+
+.hidden {
+    display: none;
+}
+
+
+/* Existing styles */
+.disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    pointer-events: none;
+    border: none;
+}
+
+.disabled:hover {
+    background-color: #ccc;
+    /* No change on hover for disabled button */
+}
