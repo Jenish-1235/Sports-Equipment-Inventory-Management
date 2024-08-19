@@ -21,33 +21,30 @@
     <section id="login">
         <div class="container">
             <h2 id="loginHead">Sports Inventory</h2>
-            <form action="" id="userData">
-                <div class="form-group">
-                    <label for="Name">Name: 
-                        <input type="text" id="name" name="name" required autocomplete="off">
-                    </label>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="role">Login as:</label>
-                    <select id="role" name="role" onchange="showConditionalField()">
-                        <option value="">Select</option>
-                        <option value="student">Student</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
-                <br>
-                <div id="studentField" class="conditional-field">
-                    <label for="rollNumber">Roll Number:</label>
-                    <input type="text" id="rollNumber" name="rollNumber">
-                </div>
-                <div id="adminField" class="conditional-field">
-                    <label for="adminPassword">Admin Password:</label>
-                    <input type="password" id="adminPassword" name="adminPassword">
-                </div>
-                <br>
-                <button type="submit">Enter</button>
-            </form>
+            <form id="loginForm">
+    
+
+    <div>
+        <label for="userId">Student ID or Admin Username:</label>
+        <input type="text" id="userId" required>
+    </div>
+
+
+    <div class="role-selection">
+        <input type="radio" name="role" value="student" id="studentRole" checked>
+        <label for="studentRole">Student</label>
+        <input type="radio" name="role" value="admin" id="adminRole">
+        <label for="adminRole">Admin</label>
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+    </div>
+
+    <button type="submit">Login</button>
+</form>
+
         </div>
     </section>
 
