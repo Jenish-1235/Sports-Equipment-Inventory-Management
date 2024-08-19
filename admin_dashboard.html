@@ -3,9 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <link rel="stylesheet" href="Styles/admin_dashboard_style.css">
+    <title>Admin Dashboard</title>
 </head>
 <body>
-    <h2>Admin Panel</h2>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+
+    <!-- Dashboard Overview Section -->
+    <section id="dashboard-overview">
+        <h2 style="font-size: 2em;">Overview</h2>
+        <div class="overview-container" style="margin-top: 10px;">
+            <div class="overview-card" id="total-equipment">
+                <h3>Total Equipment</h3>
+                <p id="total-equipment-value">0</p>
+            </div>
+            <div class="overview-card" id="borrowed-equipment">
+                <h3>Borrowed Equipment</h3>
+                <p id="borrowed-equipment-value">0</p>
+            </div>
+            <div class="overview-card" id="available-equipment">
+                <h3>Available Equipment</h3>
+                <p id="available-equipment-value">0</p>
+            </div>
+            <div class="overview-card" id="maintenance-equipment">
+                <h3>Maintenance Required</h3>
+                <p id="maintenance-equipment-value">0</p>
+            </div>
+            <div class="overview-card" id="equipment-condition">
+                <h3>Equipment Condition</h3>
+                <div id="condition-chart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Container for the three main sections -->
+    <section id="main-sections">
+        <!-- Inventory Management Tile -->
+        <div class="tile" id="inventory-management">
+            <h3>Inventory List</h3>
+            <button id="addItemBtn">Add Item</button>
+            
+            <table id="inventoryTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Available</th>
+                        <th>Condition</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Inventory items will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Borrow Requests Section -->
+        <div class="tile" id="borrow-requests">
+            <h2>Borrow Requests</h2>
+            <div id="borrow-requests-list" class="borrow-requests-list">
+                <!-- Borrow requests will be dynamically populated here -->
+            </div>
+        </div>
+
+        <!-- User Management Section -->
+        <div class="tile" id="user-management">
+            <div class="tile-header">
+                <h3>User Management</h3>
+                <button id="addUserBtn">Add User to Blacklist</button>
+            </div>
+            <div class="blacklist-form" id="blacklistForm" style="display: none;">
+                <form id="blacklistUserForm">
+                    <label for="rollNumber">Student Roll Number:</label>
+                    <input type="text" id="rollNumber" name="rollNumber" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="blacklist-table">
+                <h4>Blacklisted Users</h4>
+                <table id="blacklistTable">
+                    <thead>
+                        <tr>
+                            <th>Roll Number</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Blacklisted users will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Item Form -->
+    <div id="addItemForm" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add New Item</h3>
+            <form id="addItemFormContent">
+                <div class="form-group">
+                    <label for="itemName">Name:</label>
+                    <input type="text" id="itemName" name="itemName" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemAvailable">Available:</label>
+                    <input type="number" id="itemAvailable" name="itemAvailable" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCondition">Condition:</label>
+                    <select id="itemCondition" name="itemCondition" required>
+                        <option value="good">Good</option>
+                        <option value="damaged">Damaged</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemStatus">Status:</label>
+                    <select id="itemStatus" name="itemStatus" required>
+                        <option value="available">Available</option>
+                        <option value="not-available">Not Available</option>
+                    </select>
+                </div>
+                <button type="submit">Submit</button>
+                <button type="button" id="cancelAddItemBtn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="Scripts/admin_dashboard_script.js"></script>
 </body>
 </html>

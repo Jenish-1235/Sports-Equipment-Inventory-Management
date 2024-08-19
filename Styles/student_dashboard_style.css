@@ -1,5 +1,3 @@
-/* styles.css */
-
 /* Basic reset */
 * {
     margin: 0;
@@ -8,9 +6,15 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
+/* Smooth Transitions */
+* {
+    transition: all 0.3s ease-in-out;
+}
 /* Landing Page Styles */
 #landing {
     position: relative;
@@ -24,14 +28,13 @@ body {
     text-align: center;
 }
 
-#landing h1 {
-    font-size: 3em;
-    margin-bottom: 0.5em;
-}
-
-#landing p {
-    font-size: 1.5em;
-    margin-bottom: 1em;
+.landing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    text-align: center;
 }
 
 #scrollDown {
@@ -43,6 +46,8 @@ body {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
+    margin-top: 20px;
+    /* Centered horizontally within its container */
 }
 
 #scrollDown:hover {
@@ -52,31 +57,41 @@ body {
 #dashboard {
     padding: 2em;
     min-height: 100vh;
-    background-color: rgb(100,172,196);
+    background-color: rgb(245, 250, 255);
     color: #333;
 }
 
 #dashboard h2 {
     font-size: 2em;
     margin-bottom: 1em;
+    animation: slideInDown 1s ease-in-out;
 }
 
+@keyframes slideInDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
 .dashboard-container {
     display: flex;
     gap: 20px;
-    /* Space between left and right sections */
     min-height: 80vh;
 }
 
 /* Left Side: Inventory Section */
 .inventory {
-    flex: 1;
-    /* Take up 2/3 of the space */
-    background-color: #f0f8ff;
-    /* Light background color */
+    flex: 2;
+    background: linear-gradient(to bottom right, #e0f7ff, #f0faff);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .inventory h2 {
@@ -87,58 +102,39 @@ body {
 }
 
 /* Inventory Grid */
-/* Basic grid layout for larger screens */
 .inventory-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 items per row */
     gap: 20px;
     max-height: calc(150px * 3 + 40px);
-    /* 3 rows with a bit of extra space */
     overflow-y: auto;
-    /* Makes the grid scrollable if content exceeds the max height */
+    padding: 10px;
+    border-radius: 15px;
 }
 
-/* Responsive layout for medium screens (tablets) */
-@media screen and (max-width: 768px) {
-    .inventory-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 items per row */
-        max-height: calc(150px * 3 + 40px);
-        /* Adjust for 3 rows */
-    }
-}
-
-/* Responsive layout for small screens (mobile devices) */
-@media screen and (max-width: 480px) {
-    .inventory-grid {
-        grid-template-columns: repeat(1, 1fr);
-        /* 1 item per row */
-        max-height: calc(150px * 3 + 40px);
-        /* Adjust for 3 rows */
-    }
-}
-
-/* Inventory Item */
 .item {
     position: relative;
     height: 150px;
-    border-radius: 8px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Background Image for Each Item */
+.item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
 .item-bg {
     width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
     filter: brightness(0.75);
-    /* Darkens the image slightly for better text visibility */
 }
 
-/* Item Name */
 .item-name {
     position: absolute;
     bottom: 40px;
@@ -147,10 +143,8 @@ body {
     font-weight: bold;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    /* Adds a subtle shadow for readability */
 }
 
-/* Status Indicator */
 .status {
     position: absolute;
     bottom: 10px;
@@ -162,18 +156,37 @@ body {
     color: #fff;
 }
 
-/* Available Status */
 .status.available {
-    background-color: green;
+    background-color: #28a745;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
 }
 
-/* Not Available Status */
 .status.not-available {
-    background-color: red;
+    background-color: #dc3545;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
 }
 
-/* Adjust font size and padding for smaller screens */
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .inventory-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features,
+    .inventory {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 480px) {
+    .inventory-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
     .item-name {
         font-size: 1em;
         bottom: 30px;
@@ -185,11 +198,173 @@ body {
     }
 }
 
+/* Right Side: Features Section */
 .features {
     flex: 1;
-    /* Take up 1/3 of the space */
-    background-color: #e6f7ff;
-    /* Light background color */
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
     padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Header Style */
+.features h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+/* Section Styling */
+.features>div {
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons Container */
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Button Styling */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
     border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+    transform: translateY(-3px);
+}
+
+/* Button Text Alignment */
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* List Styling */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Borrow Form Styles */
+#borrow-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+    z-index: 1000;
+    /* Ensure it's on top */
+}
+
+#borrow-form .form-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    animation: fadeIn 0.5s ease-in-out;
+    position: relative;
+    /* Ensure it stays in place */
+}
+
+#borrow-form h3 {
+    margin-bottom: 1em;
+}
+
+#borrow-form label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+#borrow-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#borrow-form button {
+    width: calc(100% - 20px);
+    /* Full width minus margins */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin: 10px;
+    /* Margin from start and end */
+}
+
+#borrow-form button#submit-form {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#borrow-form button#submit-form:hover {
+    background-color: #0056b3;
+}
+
+#borrow-form button#close-form {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+#borrow-form button#close-form:hover {
+    background-color: #c82333;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hidden Class */
+.hidden {
+    display: none;
 }

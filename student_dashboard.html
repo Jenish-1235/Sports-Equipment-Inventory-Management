@@ -18,6 +18,7 @@
         </div>
     </section>
 
+
     <!-- Main Dashboard Section -->
     <section id="dashboard">
         <h2>Dashboard</h2>
@@ -107,13 +108,61 @@
             </div>
 
 
-            
 
             <!-- Right Side: Placeholder for future features -->
             <div class="features">
-                <!-- Content for the right side will go here -->
+                <!-- Borrowed Items Summary -->
+                <div class="borrowed-summary">
+                    <h3>Borrowed Items</h3>
+                    <ul id="borrowed-items-list">
+                        <!-- List of borrowed items -->
+                    </ul>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <button id="return-item-btn">Return Item</button>
+                    <button id="view-history-btn">View History</button>
+                    <button id="report-issue-btn">Report Issue</button>
+                </div>
+
+                <!-- Profile Overview -->
+                <div class="profile-overview">
+                    <h3>Profile</h3>
+                    <p id="user-name">Name: John Doe</p>
+                    <p id="user-role">Role: Student</p>
+                </div>
             </div>
-        </div>
+
+            <!-- Main Dashboard Section -->
+            <section id="dashboard">
+                <!-- Existing content -->
+
+                <!-- Borrow Form -->
+                <div id="borrow-form" class="hidden">
+                    <div class="form-content">
+                        <h3>Borrow Item</h3>
+                        <form id="borrow-item-form">
+                            <label for="item-name">Item Name:</label>
+                            <input type="text" id="item-name" name="item-name" readonly>
+
+                            <label for="student-id">Student ID:</label>
+                            <input type="text" id="student-id" name="student-id" required>
+
+                            <label for="borrow-date">Borrow Date:</label>
+                            <input type="date" id="borrow-date" name="borrow-date" required>
+
+                            <label for="return-date">Return Date:</label>
+                            <input type="date" id="return-date" name="return-date" required>
+
+                            <button id="submit-form" type="submit">Submit</button>
+                            <button id="close-form" type="button">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
     </section>
 
     <script src="Scripts/student_dashboard_script.js"></script>

@@ -1,0 +1,388 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fafafa;
+    color: #333;
+    padding: 20px;
+}
+
+header {
+    background-color: #0056b3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Overview Section */
+#dashboard-overview {
+    margin-bottom: 20px;
+}
+
+.overview-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.overview-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.overview-card h3 {
+    margin-bottom: 10px;
+    color: #0056b3;
+}
+
+.overview-card p {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #444;
+}
+
+/* Main Sections Container */
+#main-sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.tile {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Inventory Management Section */
+#inventory-management {
+    display: flex;
+    flex-direction: column;
+}
+
+#addItemBtn {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    float: right;
+}
+
+#addItemBtn:hover {
+    background-color: #00408f;
+}
+
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#inventoryTable th,
+#inventoryTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#inventoryTable th {
+    background-color: #f1f1f1;
+    color: #555;
+}
+
+/* Borrow Requests Section */
+#borrow-requests {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section h2 {
+    margin-bottom: 15px;
+    color: #0056b3;
+    font-size: 1.5em;
+}
+
+.borrow-requests-list {
+    margin-top: 15px;
+    overflow-x: auto;
+    /* Enable horizontal scrolling if needed */
+}
+
+.borrow-request-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    flex-wrap: wrap;
+    /* Allow wrapping of content to prevent overflow */
+}
+
+.borrow-request-item:last-child {
+    border-bottom: none;
+}
+
+.borrow-request-details {
+    flex: 1;
+    /* Takes up remaining space */
+    display: flex;
+    justify-content: space-between;
+}
+
+.borrow-request-item div {
+    margin-right: 10px;
+}
+
+.borrow-request-actions {
+    display: flex;
+    gap: 10px;
+    /* Space between buttons */
+}
+
+.borrow-request-actions button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.borrow-request-actions button.approve {
+    background-color: #28a745;
+    color: white;
+}
+
+.borrow-request-actions button.approve:hover {
+    background-color: #218838;
+}
+
+.borrow-request-actions button.deny {
+    background-color: #dc3545;
+    color: white;
+}
+
+.borrow-request-actions button.deny:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Styles for Borrow Requests List */
+@media (max-width: 768px) {
+    .borrow-request-item {
+        flex-direction: column;
+        /* Stack items vertically on smaller screens */
+        align-items: flex-start;
+    }
+
+    .borrow-request-details {
+        width: 100%;
+        flex-direction: column;
+        /* Stack details vertically */
+    }
+
+    .borrow-request-actions {
+        width: 100%;
+        justify-content: flex-start;
+        /* Align buttons to the start */
+    }
+}
+
+@media (max-width: 480px) {
+    .borrow-request-item {
+        font-size: 0.8em;
+        /* Reduce font size for small screens */
+    }
+
+    .borrow-request-actions button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+}
+
+/* User Management Section */
+#user-management {
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#addUserBtn {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#addUserBtn:hover {
+    background-color: #00408f;
+}
+
+.blacklist-form {
+    margin-bottom: 20px;
+}
+
+.blacklist-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.blacklist-form label,
+.blacklist-form input,
+.blacklist-form button {
+    margin-bottom: 10px;
+}
+
+.blacklist-table {
+    margin-top: 20px;
+}
+
+.blacklist-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.blacklist-table th,
+.blacklist-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.blacklist-table th {
+    background-color: #f1f1f1;
+    color: #555;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#cancelAddItemBtn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#cancelAddItemBtn:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Layout for Smaller Screens */
+@media (max-width: 1200px) {
+    #main-sections {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* Adjust columns to fit smaller screens */
+    }
+}
+
+@media (max-width: 992px) {
+    #main-sections {
+        grid-template-columns: 1fr;
+        /* Stack columns in a single column */
+    }
+
+    #dashboard-overview {
+        margin-bottom: 10px;
+    }
+
+    .overview-card p {
+        font-size: 1.5em;
+        /* Adjust font size for smaller screens */
+    }
+
+    header {
+        padding: 15px;
+        /* Adjust header padding */
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 10px;
+        /* Further reduce header padding */
+    }
+
+    #inventory-management,
+    #borrow-requests,
+    #user-management {
+        margin-bottom: 20px;
+        /* Space between sections */
+    }
+
+    #inventory-management {
+        order: 1;
+    }
+
+    #borrow-requests {
+        order: 2;
+    }
+
+    #user-management {
+        order: 3;
+    }
+}
+
