@@ -1,0 +1,280 @@
+// admin_dashboard_script.js
+const firebaseConfig = {
+    apiKey: "AIzaSyCrQiOeKqVHxC8rRZjJjO_YbNs19zwbgKY",
+    authDomain: "sports-equipment-invento-5b242.firebaseapp.com",
+    databaseURL: "https://sports-equipment-invento-5b242-default-rtdb.firebaseio.com",
+    projectId: "sports-equipment-invento-5b242",
+    storageBucket: "sports-equipment-invento-5b242.appspot.com",
+    messagingSenderId: "496964259427",
+    appId: "1:496964259427:web:2422d1005c1e4fbf0fb256",
+    measurementId: "G-0XNK39MT9J"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+document.addEventListener('DOMContentLoaded', function () {
+    // Example data; replace with actual data from your backend
+    const data = {
+        totalEquipment: 120,
+        borrowedEquipment: 35,
+        availableEquipment: 85,
+        maintenanceRequired: 10,
+        equipmentCondition: {
+            good: 90,
+            damaged: 30
+        }
+    };
+
+    // Update UI with data
+    document.getElementById('total-equipment-value').textContent = data.totalEquipment;
+    document.getElementById('borrowed-equipment-value').textContent = data.borrowedEquipment;
+    document.getElementById('available-equipment-value').textContent = data.availableEquipment;
+    document.getElementById('maintenance-equipment-value').textContent = data.maintenanceRequired;
+
+    // Handle equipment condition chart
+    const conditionChart = document.getElementById('condition-chart');
+    const goodCondition = data.equipmentCondition.good;
+    const damagedCondition = data.equipmentCondition.damaged;
+
+    conditionChart.innerHTML = `
+        <div style="background-color: #28a745; width: ${goodCondition}%; height: 20px; margin-bottom: 5px;">Good</div>
+        <div style="background-color: #dc3545; width: ${damagedCondition}%; height: 20px;">Damaged</div>
+    `;
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const addItemBtn = document.getElementById('addItemBtn');
+    const addItemForm = document.getElementById('addItemForm');
+    const closeAddItemForm = document.querySelector('#addItemForm .close');
+    const cancelAddItemBtn = document.getElementById('cancelAddItemBtn');
+    const addItemFormContent = document.getElementById('addItemFormContent');
+    const inventoryTableBody = document.querySelector('#inventoryTable tbody');
+
+    // Open the form
+    addItemBtn.addEventListener('click', () => {
+        addItemForm.style.display = 'block';
+    });
+
+    // Close the form
+    closeAddItemForm.addEventListener('click', () => {
+        addItemForm.style.display = 'none';
+    });
+
+    cancelAddItemBtn.addEventListener('click', () => {
+        addItemForm.style.display = 'none';
+    });
+
+    // Close the form if clicked outside
+    window.addEventListener('click', (event) => {
+        if (event.target == addItemForm) {
+            addItemForm.style.display = 'none';
+        }
+    });
+
+    // Submit the form
+    addItemFormContent.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const itemName = document.getElementById('itemName').value;
+        const itemAvailable = document.getElementById('itemAvailable').value;
+        const itemCondition = document.getElementById('itemCondition').value;
+        const itemStatus = document.getElementById('itemStatus').value;
+
+        // Add data to Firebase
+        const db = firebase.database();
+        const inventoryRef = db.ref('inventory');
+        const newItemRef = inventoryRef.push();
+
+        newItemRef.set({
+            name: itemName,
+            available: itemAvailable,
+            condition: itemCondition,
+            status: itemStatus
+        }).then(() => {
+            console.log('Item added successfully');
+            addItemForm.style.display = 'none';
+            fetchInventoryItems(); // Refresh the inventory list
+        }).catch((error) => {
+            console.error('Error adding item:', error);
+        });
+    });
+
+    // Fetch and update the inventory list
+    function fetchInventoryItems() {
+        const db = firebase.database();
+        const inventoryRef = db.ref('inventory');
+
+        inventoryRef.on('value', (snapshot) => {
+            inventoryTableBody.innerHTML = ''; // Clear existing rows
+            snapshot.forEach((childSnapshot) => {
+                const item = childSnapshot.val();
+                const itemId = childSnapshot.key;
+
+                // Create a new row for each item
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${itemId}</td>
+                    <td>${item.name}</td>
+                    <td>${item.available}</td>
+                    <td>${item.condition}</td>
+                    <td>${item.status}</td>
+                    <td>
+                        <button class="deleteBtn" data-id="${itemId}">Delete</button>
+                    </td>
+                `;
+                inventoryTableBody.appendChild(row);
+            });
+
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.deleteBtn').forEach(btn => {
+                btn.addEventListener('click', (event) => {
+                    const itemId = event.target.getAttribute('data-id');
+                    deleteItem(itemId);
+                });
+            });
+        });
+    }
+
+    // Delete item from Firebase
+    function deleteItem(itemId) {
+        const db = firebase.database();
+        const itemRef = db.ref(`inventory/${itemId}`);
+
+        itemRef.remove().then(() => {
+            console.log('Item deleted successfully');
+            fetchInventoryItems(); // Refresh the inventory list
+        }).catch((error) => {
+            console.error('Error deleting item:', error);
+        });
+    }
+
+    // Initial fetch of inventory items
+    fetchInventoryItems();
+});
+
+
+
+// Reference to the Firebase Realtime Database
+const borrowRequestsRef = firebase.database().ref('borrow_requests');
+
+// Function to render the borrow requests list
+function renderBorrowRequests() {
+    // Get the borrow requests list element
+    const borrowRequestsList = document.getElementById('borrow-requests-list');
+
+    // Clear the current list
+    borrowRequestsList.innerHTML = '';
+
+    // Fetch borrow requests from the Firebase database
+    borrowRequestsRef.on('value', (snapshot) => {
+        const requests = snapshot.val();
+
+        for (let requestId in requests) {
+            const request = requests[requestId];
+            const requestItem = document.createElement('div');
+            requestItem.className = 'borrow-request-item';
+
+            requestItem.innerHTML = `
+                <span><strong>Item:</strong> ${request.itemName}</span>
+                <span><strong>Student ID:</strong> ${request.studentId}</span>
+                <span><strong>Student Name:</strong> ${request.studentName}</span>
+                <div class="borrow-request-actions">
+                    <button class="approve-button" onclick="approveRequest('${requestId}')">Approve</button>
+                    <button class="deny-button" onclick="denyRequest('${requestId}')">Deny</button>
+                </div>
+            `;
+
+            borrowRequestsList.appendChild(requestItem);
+        }
+    });
+}
+
+// Function to approve a borrow request
+function approveRequest(requestId) {
+    // Update the request status in Firebase
+    borrowRequestsRef.child(requestId).update({ status: 'approved' });
+}
+
+// Function to deny a borrow request
+function denyRequest(requestId) {
+    // Update the request status in Firebase
+    borrowRequestsRef.child(requestId).update({ status: 'denied' });
+}
+
+// Call renderBorrowRequests to display the list when the page loads
+renderBorrowRequests();
+
+
+
+// Reference to the Add User Button and Blacklist Form
+const addUserBtn = document.getElementById('addUserBtn');
+const blacklistForm = document.getElementById('blacklistForm');
+const blacklistUserForm = document.getElementById('blacklistUserForm');
+const blacklistTable = document.getElementById('blacklistTable').getElementsByTagName('tbody')[0];
+
+// Toggle Form Visibility
+addUserBtn.addEventListener('click', () => {
+    blacklistForm.style.display = 'block';
+});
+
+// Submit Blacklist Form
+blacklistUserForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const rollNumber = document.getElementById('rollNumber').value;
+
+    // Add the roll number to Firebase under the blacklist
+    firebase.database().ref('blacklist').push({
+        rollNumber: rollNumber
+    });
+
+    // Reset the form
+    blacklistUserForm.reset();
+
+    // Hide the form after submission
+    blacklistForm.style.display = 'none';
+
+    // Update the blacklist table
+    loadBlacklist();
+});
+
+// Function to Load Blacklist from Firebase and Display in Table
+function loadBlacklist() {
+    firebase.database().ref('blacklist').on('value', (snapshot) => {
+        blacklistTable.innerHTML = ''; // Clear the table
+
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            const rollNumber = data.rollNumber;
+
+            // Create a new row
+            const row = document.createElement('tr');
+
+            // Roll Number Cell
+            const rollNumberCell = document.createElement('td');
+            rollNumberCell.textContent = rollNumber;
+            row.appendChild(rollNumberCell);
+
+            // Action Cell (Delete button)
+            const actionCell = document.createElement('td');
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', () => {
+                // Remove the entry from Firebase
+                firebase.database().ref('blacklist').child(childSnapshot.key).remove();
+                // Refresh the blacklist table
+                loadBlacklist();
+            });
+            actionCell.appendChild(deleteBtn);
+            row.appendChild(actionCell);
+
+            // Add the row to the table
+            blacklistTable.appendChild(row);
+        });
+    });
+}
+
+// Initial load of the blacklist when the page is loaded
+window.onload = function() {
+    loadBlacklist();
+};
